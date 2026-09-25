@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin:0;
+        box-sizing: border-box;
+    }
+body , article{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+body{
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    position: relative;
+    background-image: url("birthday3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+article{
+    position: relative;
+    z-index: 1;
+    width: min(90vw, 620px);
+    min-height: 260px;
+    display: grid;
+    place-content: center;
+    place-items: center;
+    gap: 18px;
+    padding: 42px 28px;
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+article input,
+article button{
+    width: min(100%, 420px);
+    min-height: 46px;
+    padding: 10px 14px;
+    font-size: 1rem;
+}
+
+article button{
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+
+section{
+    display : none;
+}
+
+
+#surpriseContainer{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url("birthday2.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    animation: fadeIn 2s ease-in;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+
+#surpriseMessage{
+    background-color: rgb(248, 248, 247);
+    font-size: clamp(1rem, 2vw, 2rem);
+    max-width: 100% ;
+    position: absolute;
+    top: 50%;
+    right: 30%;
+    left: 30%;
+
+    border-radius: 15px 0 15px 0;
+}
+@keyframes AfadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.btn2p{
+    display : none;
+}
+</style>
+<body>
+    <article id="attemptContainer">
+    <h1> 🎁 A Birthday Surprise Awaits!</h1>
+    <input type="text" placeholder="Enter birthday code..." id="userName" style="vertical-align: middle;">
+    <button id="btn2">🎁 Unlock Surprise</button>
+    <p class="btn2p">HAPPYBIRTHDAY</p>
+    <button id="btn">Submit</button>
+    </article>
+
+    <section id="surpriseContainer">
+<h1 id="surpriseTitle"></h1>
+<p id="surpriseMessage"></p>
+
+    </section>
+    <script>
+let attemptContainer = document.querySelector("#attemptContainer")
+let userName = document.querySelector("#userName")
+let surpriseContainer = document.querySelector("#surpriseContainer")
+let surpriseTitle = document.querySelector("#surpriseTitle")
+
+let btn = document.querySelector("#btn")
+
+let btn2p = document.querySelector(".btn2p")
+let btn2 = document.querySelector("#btn2")
+
+btn2.addEventListener("click", function(){
+btn2p.classList.toggle("btn2p");
+})
+
+let user = "HAPPYBIRTHDAY";
+
+let messages = [
+    "You are amazing! 🌟",
+    "Wishing you all the best! 🎂",
+    "May your day be full of joy! 🎉",
+    "You deserve all the happiness! 💫",
+    "Have the best birthday ever! 🎈"
+];
+
+let counter = 0;
+
+let errorM  = document.createElement("p");
+errorM.style.color ="black";
+attemptContainer.append(errorM);
+
+btn.addEventListener("click", function(){
+
+if(userName.value === user){
+
+attemptContainer.style.display = "none";
+confetti({
+    particleCount: 150,
+    spread: 80,
+    origin: { y: 0.6 }
+});
+surpriseContainer.style.display = "block";
+surpriseTitle.style.color = "white";
+surpriseTitle.innerText = "HAppy BIrthday 🎁"
+surpriseContainer.append(surpriseTitle);
+
+// surpriseMessage.classList.add("show") 
+
+
+// body.style.display = block; 
+
+setInterval(()=>{
+
+surpriseMessage.innerHTML = 
+messages[counter];
+
+counter = (counter + 1) % messages.length;
+    surpriseMessage.style.animation = 'none';
+    surpriseMessage.offsetHeight;  // this line forces the browser to reset
+    surpriseMessage.style.animation = 'AfadeIn 1s ease-in';
+
+    confetti({
+    particleCount: 70,
+    spread: 360,
+    origin: { y: 0.6 }
+});
+}, 3000)
+ 
+}
+else if(userName.value === ""){
+errorM.innerText = "Enter the birthday code";
+}
+
+
+else if(isNaN(userName.value) === false) {
+errorM.innerText = "❌❌ only text allow";
+}
+
+else{
+errorM.innerText = "Click the Unlock button to see the code";
+}
+})
+
+    </script>
+</body>
+</html>
